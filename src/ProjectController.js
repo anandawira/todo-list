@@ -86,15 +86,10 @@ const ProjectController = (() => {
 
   const changeTodoStatus = (projectId, todoId) => {
     const projects = getProjects();
-    let result = false;
-    if (projects[projectId].todos[todoId].isDone === false) {
-      projects[projectId].todos[todoId].isDone = true;
-      result = true;
-    } else {
-      projects[projectId].todos[todoId].isDone = false;
-    }
+    const newStatus = !projects[projectId].todos[todoId].isDone;
+    projects[projectId].todos[todoId].isDone = newStatus;
     saveProjects(projects);
-    return result;
+    return newStatus;
   };
 
   const removeTodo = (projectId, todoId) => {
