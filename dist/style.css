@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat&display=swap");
+
 * {
   margin: 0;
   padding: 0;
@@ -35,7 +37,7 @@ footer {
 
 .card {
   height: 70vh;
-  width: 400px;
+  width: 450px;
   border-radius: 25px;
   background-color: white;
 }
@@ -55,9 +57,37 @@ footer {
 }
 
 .card.new:hover {
-    opacity: 100%;
+  opacity: 100%;
 }
 
 .fa-plus {
   font-size: 80px;
+}
+
+.card-header {
+  height: 15%;
+  display: flex;
+  align-items: center;
+}
+
+.card-content {
+  height: 60%;
+}
+
+.project-name {
+  font-family: "Montserrat", sans-serif;
+  font-size: 32px;
+  font-weight: 800;
+  width: 100%;
+  text-align: center;
+  border: none;
+  transition: opacity 0.5s ease;
+}
+
+.project-name:focus {
+  opacity: 50%;
+}
+
+.card-footer {
+  height: 20%;
 }
