@@ -11,8 +11,7 @@ body {
 }
 
 header {
-  height: 15vh;
-  background-color: aliceblue;
+  height: 150px;
 
   display: flex;
   align-items: center;
@@ -24,22 +23,18 @@ header {
 }
 
 main {
-  height: 80vh;
+  padding: 50px 0px;
   display: flex;
-  justify-content: space-evenly;
   align-items: center;
-}
-
-footer {
-  height: 5vh;
-  background-color: black;
+  overflow-y: auto;
 }
 
 .card {
-  height: 70vh;
-  width: 450px;
+  height: 625px;
+  min-width: 450px;
   border-radius: 25px;
   background-color: white;
+  margin: 0px 50px;
 }
 
 .card.project {
@@ -47,7 +42,7 @@ footer {
 }
 
 .card.new {
-  border: 8px dashed black;
+  border: 6px dashed black;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -60,18 +55,27 @@ footer {
   opacity: 100%;
 }
 
-.fa-plus {
-  font-size: 80px;
+#add-project > .ph-plus {
+  font-size: 7em;
 }
 
 .card-header {
-  height: 15%;
+  height: 10%;
   display: flex;
-  align-items: center;
+  align-items: flex-end;
+  justify-content: center;
 }
 
 .card-content {
   height: 60%;
+}
+
+.card-footer {
+  height: 20%;
+}
+
+.card-header > p {
+  width: 90%;
 }
 
 .project-name {
@@ -88,6 +92,80 @@ footer {
   opacity: 50%;
 }
 
-.card-footer {
-  height: 20%;
+.todo {
+  width: 85%;
+  height: 60px;
+  margin: 20px auto;
+  border-radius: 15px;
+  display: flex;
+}
+
+.todo.high-priority {
+  border: 5px solid #b4f8c8;
+}
+
+.todo.mid-priority {
+  border: 5px solid #fbe7c6;
+}
+
+.todo.low-priority {
+  border: 5px solid #ffaebc;
+}
+
+.todo-title {
+  width: 75%;
+  display: flex;
+  align-items: center;
+  padding-left: 15px;
+}
+
+.todo-title > p {
+  font-family: "Montserrat", sans-serif;
+  font-weight: 700;
+  font-size: 25px;
+  cursor: pointer;
+}
+
+.todo-title > p:hover {
+  text-decoration: line-through;
+}
+
+.ph-pencil-simple {
+  margin-left: 10px;
+  font-size: 25px;
+  opacity: 0%;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+}
+
+.todo-title:hover > .ph-pencil-simple {
+  opacity: 100%;
+}
+
+.due-date {
+  width: 25%;
+  display: flex;
+  align-items: center;
+}
+
+.due-date > p {
+  font-family: "Montserrat", sans-serif;
+  font-weight: 300;
+  font-size: 20px;
+}
+
+.add-todo {
+  display: flex;
+}
+
+.add-todo > .ph-plus-circle {
+  margin: auto;
+  font-size: 80px;
+  cursor: pointer;
+  opacity: 50%;
+  transition: opacity 0.2s ease;
+}
+
+.add-todo > .ph-plus-circle:hover {
+  opacity: 100%;
 }
