@@ -1,11 +1,26 @@
 import ProjectController from "./ProjectController";
 import { format } from "date-fns";
+import swal from "sweetalert";
 
 const DomController = (() => {
+  const mainDom = document.querySelector("main");
   const renderProjects = () => {
     const projects = ProjectController.getProjects();
-    projects.forEach((project) => {
+    projects.forEach((project, projectId) => {
       console.log(project);
+
+      const cardDom = createCardProject();
+
+      const cardHeaderDom = createCardHeader(project);
+      cardDom.appendChild(cardHeaderDom);
+
+      const cardContentDom = createCardContent(project);
+      cardDom.appendChild(cardContentDom);
+
+      const cardFooterDom = createCardFooter(projectId);
+      cardDom.appendChild(cardFooterDom);
+
+      mainDom.appendChild(cardDom);
     });
   };
 
@@ -15,7 +30,9 @@ const DomController = (() => {
     return dom;
   };
 
-  const createCardHeader = (projectName) => {
+  const createCardHeader = (project) => {
+    const projectName = project.name;
+
     const dom = document.createElement("div");
     dom.classList.add("card-header");
 
@@ -35,6 +52,7 @@ const DomController = (() => {
     const dom = document.createElement("div");
     dom.classList.add("card-content");
 
+    // Todos
     const todos = project.todos;
     todos.forEach((todo) => {
       const priority = todo.priority + "-priority";
@@ -69,14 +87,59 @@ const DomController = (() => {
 
       dom.appendChild(todoDiv);
     });
-    return dom
+    //
+
+    // Add button
+
+    const addDiv = document.createElement("div");
+    addDiv.classList.add("add-todo");
+
+    const addIcon = document.createElement("i");
+    addIcon.classList.add("ph-plus-circle");
+
+    addDiv.appendChild(addIcon);
+
+    dom.appendChild(addDiv);
+
+    //
+    return dom;
+  };
+
+  const createCardFooter = (projectId) => {
+    const dom = document.createElement("div");
+    dom.classList.add("card-footer");
+    dom.addEventListener("click", () => {
+      swal({
+        title: "Are you sure?",
+        text: "Once deleted, you will not be able to recover this project!",
+        icon: "warning",
+        buttons: true,
+        dangerMode: true,
+      }).then((willDelete) => {
+        if (willDelete) {
+          ProjectController.removeProject(projectId);
+          dom.parentElement.remove();
+          swal("Poof! Your project has been deleted!", {
+            icon: "success",
+          });
+        } else {
+          swal("Your project is safe!");
+        }
+      });
+    });
+
+    const delIcon = document.createElement("i");
+    delIcon.classList.add("ph-x");
+
+    dom.appendChild(delIcon);
+    return dom;
   };
 
   return {
     renderProjects,
     createCardProject,
     createCardHeader,
-    createCardContent
+    createCardContent,
   };
 })();
 

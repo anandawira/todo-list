@@ -19,7 +19,8 @@
   },
   "homepage": "https://github.com/anandawira/todo-list#readme",
   "dependencies": {
-    "date-fns": "^2.16.1"
+    "date-fns": "^2.16.1",
+    "sweetalert": "^2.1.2"
   },
   "devDependencies": {
     "webpack": "^5.2.0",
