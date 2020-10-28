@@ -3168,8 +3168,12 @@ const DomController = (() => {
       const editIcon = document.createElement("i");
       editIcon.classList.add("ph-pencil-simple");
 
+      const doneIcon = document.createElement("i");
+      doneIcon.classList.add("ph-check");
+
       titleDiv.appendChild(pElement);
       titleDiv.appendChild(editIcon);
+      titleDiv.appendChild(doneIcon);
       todoDiv.appendChild(titleDiv);
 
       const dueDateDiv = document.createElement("div");

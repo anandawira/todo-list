@@ -140,14 +140,10 @@ main {
   font-family: "Montserrat", sans-serif;
   font-weight: 700;
   font-size: 25px;
-  cursor: pointer;
 }
 
-.todo-title > p:hover {
-  text-decoration: line-through;
-}
-
-.ph-pencil-simple {
+.ph-pencil-simple,
+.ph-check {
   margin-left: 10px;
   font-size: 25px;
   opacity: 0%;
@@ -155,7 +151,7 @@ main {
   transition: opacity 0.2s ease;
 }
 
-.todo-title:hover > .ph-pencil-simple {
+.todo:hover i {
   opacity: 100%;
 }
 
