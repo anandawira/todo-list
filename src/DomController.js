@@ -11,7 +11,7 @@ const DomController = (() => {
 
       const cardDom = createCardProject();
 
-      const cardHeaderDom = createCardHeader(project);
+      const cardHeaderDom = createCardHeader(project, projectId);
       cardDom.appendChild(cardHeaderDom);
 
       const cardContentDom = createCardContent(project);
@@ -30,7 +30,7 @@ const DomController = (() => {
     return dom;
   };
 
-  const createCardHeader = (project) => {
+  const createCardHeader = (project, projectId) => {
     const projectName = project.name;
 
     const dom = document.createElement("div");
@@ -42,6 +42,11 @@ const DomController = (() => {
     inputElement.classList.add("project-name");
     inputElement.type = "text";
     inputElement.setAttribute("value", projectName);
+
+    inputElement.addEventListener("focusout", (e) => {
+      console.log(e.target.value);
+      ProjectController.editProject(projectId, e.target.value);
+    });
 
     pElement.appendChild(inputElement);
     dom.appendChild(pElement);

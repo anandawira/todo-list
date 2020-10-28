@@ -1,7 +1,7 @@
 import ProjectController from "./ProjectController";
 import DomController from "./DomController";
 
-console.log(ProjectController.getProject(0));
+console.log(ProjectController.getProjects());
 
 const proj = ProjectController.getProjects();
 
