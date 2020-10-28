@@ -39,6 +39,8 @@ main {
 
 .card.project {
   box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.25);
+  display: flex;
+  flex-direction: column;
 }
 
 .card.new {
@@ -67,11 +69,26 @@ main {
 }
 
 .card-content {
-  height: 60%;
+  height: 80%;
 }
 
 .card-footer {
-  height: 20%;
+  border-top: 0.1px solid rgba(128, 128, 128, 0.24);
+  border-radius: 0px 0px 25px 25px;
+  height: 10%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 1s ease;
+  cursor: pointer;
+}
+
+.card-footer:hover {
+  background-color: #ff4646;
+}
+
+.card-footer:hover > .ph-x {
+  color: white;
 }
 
 .card-header > p {
@@ -159,6 +176,7 @@ main {
 }
 
 .add-todo > .ph-plus-circle {
+  line-height: 0px;
   margin: auto;
   font-size: 80px;
   cursor: pointer;
@@ -168,4 +186,9 @@ main {
 
 .add-todo > .ph-plus-circle:hover {
   opacity: 100%;
+}
+
+.ph-x {
+  font-size: 50px;
+  transition: color 0.5s ease;
 }
