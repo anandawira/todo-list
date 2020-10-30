@@ -71,6 +71,9 @@ main {
 .card-content {
   height: 78%;
   border-bottom: 1px solid rgba(128, 128, 128, 0.24);
+  overflow-y: auto;
+  scrollbar-color: black white;
+  scrollbar-width: auto;
 }
 
 .card-footer {

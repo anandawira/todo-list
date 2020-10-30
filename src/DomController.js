@@ -1,6 +1,7 @@
 import ProjectController from "./ProjectController";
 import { format } from "date-fns";
 import swal from "sweetalert";
+import Todo from "./Todo";
 
 const DomController = (() => {
   const mainDom = document.querySelector("main");
@@ -70,48 +71,7 @@ const DomController = (() => {
     // Todos
     const todos = project.todos;
     todos.forEach((todo, todoId) => {
-      const priority = todo.priority + "-priority";
-      const dueDate = new Date(todo.dueDate);
-      const dueDateFormatted = format(dueDate, "dd MMM");
-      const todoTitle = todo.title;
-
-      const todoDiv = document.createElement("div");
-      todoDiv.classList.add("todo", priority);
-      if (ProjectController.getTodoStatus(projectId, todoId)) {
-        todoDiv.classList.add("done");
-      }
-
-      const titleDiv = document.createElement("div");
-      titleDiv.classList.add("todo-title");
-
-      const pElement = document.createElement("p");
-      pElement.innerText = todoTitle;
-
-      const editIcon = document.createElement("i");
-      editIcon.classList.add("ph-pencil-simple");
-
-      const doneIcon = document.createElement("i");
-      doneIcon.classList.add("ph-check");
-
-      doneIcon.addEventListener("click", () => {
-        todoDiv.classList.toggle("done");
-        ProjectController.changeTodoStatus(projectId, todoId);
-      });
-
-      titleDiv.appendChild(pElement);
-      titleDiv.appendChild(editIcon);
-      titleDiv.appendChild(doneIcon);
-      todoDiv.appendChild(titleDiv);
-
-      const dueDateDiv = document.createElement("div");
-      dueDateDiv.classList.add("due-date");
-
-      const pDueDate = document.createElement("p");
-      pDueDate.innerText = dueDateFormatted;
-
-      dueDateDiv.appendChild(pDueDate);
-      todoDiv.appendChild(dueDateDiv);
-
+      const todoDiv = createTodoItem(todo, todoId, projectId);
       dom.appendChild(todoDiv);
     });
     //
@@ -126,6 +86,24 @@ const DomController = (() => {
     addIcon.addEventListener("click", () => {
       editModal();
       $("#detail").modal();
+
+      const saveButton = document.getElementById("btnSave");
+
+      saveButton.addEventListener("click", () => {
+        const title = document.getElementById("inputTitle").value;
+        const desc = document.getElementById("inputDescription").value;
+        const dueDate = new Date(document.getElementById("inputDuedate").value);
+        const priority = document.getElementById("priority").value;
+
+        const todo = new Todo(title, desc, dueDate, priority);
+
+        const todoId = ProjectController.addTodo(projectId, todo); // Add todo to localstorage and get todoId as return
+
+        const todoDom = createTodoItem(todo, todoId, projectId);
+
+        dom.insertBefore(todoDom, addDiv);
+        $.modal.close();
+      });
     });
 
     addDiv.appendChild(addIcon);
@@ -136,10 +114,57 @@ const DomController = (() => {
     return dom;
   };
 
+  const createTodoItem = (todo, todoId, projectId) => {
+    const priority = todo.priority + "-priority";
+    const dueDate = new Date(todo.dueDate);
+    const dueDateFormatted = format(dueDate, "dd MMM");
+    const todoTitle = todo.title;
+
+    const todoDiv = document.createElement("div");
+    todoDiv.classList.add("todo", priority);
+    if (ProjectController.getTodoStatus(projectId, todoId)) {
+      todoDiv.classList.add("done");
+    }
+
+    const titleDiv = document.createElement("div");
+    titleDiv.classList.add("todo-title");
+
+    const pElement = document.createElement("p");
+    pElement.innerText = todoTitle;
+
+    const editIcon = document.createElement("i");
+    editIcon.classList.add("ph-pencil-simple");
+
+    const doneIcon = document.createElement("i");
+    doneIcon.classList.add("ph-check");
+
+    doneIcon.addEventListener("click", () => {
+      todoDiv.classList.toggle("done");
+      ProjectController.changeTodoStatus(projectId, todoId);
+    });
+
+    titleDiv.appendChild(pElement);
+    titleDiv.appendChild(editIcon);
+    titleDiv.appendChild(doneIcon);
+    todoDiv.appendChild(titleDiv);
+
+    const dueDateDiv = document.createElement("div");
+    dueDateDiv.classList.add("due-date");
+
+    const pDueDate = document.createElement("p");
+    pDueDate.innerText = dueDateFormatted;
+
+    dueDateDiv.appendChild(pDueDate);
+    todoDiv.appendChild(dueDateDiv);
+    return todoDiv;
+  };
+
   const editModal = (title, description, dueDate) => {
+    const todayDate = format(Date.now(), "yyyy-MM-dd");
+
     document.getElementById("inputTitle").value = title || "";
     document.getElementById("inputDescription").value = description || "";
-    document.getElementById("inputDuedate").value = dueDate || "";
+    document.getElementById("inputDuedate").value = dueDate || todayDate;
   };
 
   const createCardFooter = (projectId) => {

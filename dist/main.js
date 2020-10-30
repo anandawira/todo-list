@@ -3086,9 +3086,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
 /* harmony export */ });
 /* harmony import */ var _ProjectController__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ProjectController */ "./src/ProjectController.js");
-/* harmony import */ var date_fns__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! date-fns */ "./node_modules/date-fns/esm/format/index.js");
+/* harmony import */ var date_fns__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! date-fns */ "./node_modules/date-fns/esm/format/index.js");
 /* harmony import */ var sweetalert__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! sweetalert */ "./node_modules/sweetalert/dist/sweetalert.min.js");
 /* harmony import */ var sweetalert__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(sweetalert__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _Todo__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Todo */ "./src/Todo.js");
+
 
 
 
@@ -3161,48 +3163,7 @@ const DomController = (() => {
     // Todos
     const todos = project.todos;
     todos.forEach((todo, todoId) => {
-      const priority = todo.priority + "-priority";
-      const dueDate = new Date(todo.dueDate);
-      const dueDateFormatted = (0,date_fns__WEBPACK_IMPORTED_MODULE_2__.default)(dueDate, "dd MMM");
-      const todoTitle = todo.title;
-
-      const todoDiv = document.createElement("div");
-      todoDiv.classList.add("todo", priority);
-      if (_ProjectController__WEBPACK_IMPORTED_MODULE_0__.default.getTodoStatus(projectId, todoId)) {
-        todoDiv.classList.add("done");
-      }
-
-      const titleDiv = document.createElement("div");
-      titleDiv.classList.add("todo-title");
-
-      const pElement = document.createElement("p");
-      pElement.innerText = todoTitle;
-
-      const editIcon = document.createElement("i");
-      editIcon.classList.add("ph-pencil-simple");
-
-      const doneIcon = document.createElement("i");
-      doneIcon.classList.add("ph-check");
-
-      doneIcon.addEventListener("click", () => {
-        todoDiv.classList.toggle("done");
-        _ProjectController__WEBPACK_IMPORTED_MODULE_0__.default.changeTodoStatus(projectId, todoId);
-      });
-
-      titleDiv.appendChild(pElement);
-      titleDiv.appendChild(editIcon);
-      titleDiv.appendChild(doneIcon);
-      todoDiv.appendChild(titleDiv);
-
-      const dueDateDiv = document.createElement("div");
-      dueDateDiv.classList.add("due-date");
-
-      const pDueDate = document.createElement("p");
-      pDueDate.innerText = dueDateFormatted;
-
-      dueDateDiv.appendChild(pDueDate);
-      todoDiv.appendChild(dueDateDiv);
-
+      const todoDiv = createTodoItem(todo, todoId, projectId);
       dom.appendChild(todoDiv);
     });
     //
@@ -3217,6 +3178,24 @@ const DomController = (() => {
     addIcon.addEventListener("click", () => {
       editModal();
       $("#detail").modal();
+
+      const saveButton = document.getElementById("btnSave");
+
+      saveButton.addEventListener("click", () => {
+        const title = document.getElementById("inputTitle").value;
+        const desc = document.getElementById("inputDescription").value;
+        const dueDate = new Date(document.getElementById("inputDuedate").value);
+        const priority = document.getElementById("priority").value;
+
+        const todo = new _Todo__WEBPACK_IMPORTED_MODULE_2__.default(title, desc, dueDate, priority);
+
+        const todoId = _ProjectController__WEBPACK_IMPORTED_MODULE_0__.default.addTodo(projectId, todo); // Add todo to localstorage and get todoId as return
+
+        const todoDom = createTodoItem(todo, todoId, projectId);
+
+        dom.insertBefore(todoDom, addDiv);
+        $.modal.close();
+      });
     });
 
     addDiv.appendChild(addIcon);
@@ -3227,10 +3206,57 @@ const DomController = (() => {
     return dom;
   };
 
+  const createTodoItem = (todo, todoId, projectId) => {
+    const priority = todo.priority + "-priority";
+    const dueDate = new Date(todo.dueDate);
+    const dueDateFormatted = (0,date_fns__WEBPACK_IMPORTED_MODULE_3__.default)(dueDate, "dd MMM");
+    const todoTitle = todo.title;
+
+    const todoDiv = document.createElement("div");
+    todoDiv.classList.add("todo", priority);
+    if (_ProjectController__WEBPACK_IMPORTED_MODULE_0__.default.getTodoStatus(projectId, todoId)) {
+      todoDiv.classList.add("done");
+    }
+
+    const titleDiv = document.createElement("div");
+    titleDiv.classList.add("todo-title");
+
+    const pElement = document.createElement("p");
+    pElement.innerText = todoTitle;
+
+    const editIcon = document.createElement("i");
+    editIcon.classList.add("ph-pencil-simple");
+
+    const doneIcon = document.createElement("i");
+    doneIcon.classList.add("ph-check");
+
+    doneIcon.addEventListener("click", () => {
+      todoDiv.classList.toggle("done");
+      _ProjectController__WEBPACK_IMPORTED_MODULE_0__.default.changeTodoStatus(projectId, todoId);
+    });
+
+    titleDiv.appendChild(pElement);
+    titleDiv.appendChild(editIcon);
+    titleDiv.appendChild(doneIcon);
+    todoDiv.appendChild(titleDiv);
+
+    const dueDateDiv = document.createElement("div");
+    dueDateDiv.classList.add("due-date");
+
+    const pDueDate = document.createElement("p");
+    pDueDate.innerText = dueDateFormatted;
+
+    dueDateDiv.appendChild(pDueDate);
+    todoDiv.appendChild(dueDateDiv);
+    return todoDiv;
+  };
+
   const editModal = (title, description, dueDate) => {
+    const todayDate = (0,date_fns__WEBPACK_IMPORTED_MODULE_3__.default)(Date.now(), "yyyy-MM-dd");
+
     document.getElementById("inputTitle").value = title || "";
     document.getElementById("inputDescription").value = description || "";
-    document.getElementById("inputDuedate").value = dueDate || "";
+    document.getElementById("inputDuedate").value = dueDate || todayDate;
   };
 
   const createCardFooter = (projectId) => {
@@ -3446,12 +3472,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
 /* harmony export */ });
+
+
 class Todo {
   constructor(title, description, dueDate, priority) {
-    this.title = title;
-    this.description = description;
-    this.dueDate = dueDate;
-    this.priority = priority;
+    this.title = title || "";
+    this.description = description || "";
+    this.dueDate = dueDate || new Date();
+    this.priority = priority || "low";
     this.isDone = false;
   }
 }
