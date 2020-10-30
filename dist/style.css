@@ -69,13 +69,13 @@ main {
 }
 
 .card-content {
-  height: 80%;
+  height: 78%;
+  border-bottom: 1px solid rgba(128, 128, 128, 0.24);
 }
 
 .card-footer {
-  border-top: 0.1px solid rgba(128, 128, 128, 0.24);
   border-radius: 0px 0px 25px 25px;
-  height: 10%;
+  height: 12%;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -178,7 +178,7 @@ main {
 
 .add-todo .ph-plus-circle {
   line-height: 0px;
-  margin: auto;
+  margin: 10px auto;
   font-size: 80px;
   cursor: pointer;
   opacity: 50%;
@@ -196,4 +196,66 @@ main {
 
 .done {
   opacity: 30%;
+}
+
+#detail {
+  margin: auto;
+  border: 1px black solid;
+  padding: 20px;
+  width: 500px;
+  background-color: white;
+  font-family: "Montserrat", sans-serif;
+}
+
+#detail input {
+  background-color: transparent;
+}
+
+#detail #inputTitle {
+  border: none;
+  text-align: center;
+  font-size: 40px;
+  font-weight: 600;
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+#detail #inputDescription {
+  font-size: 20px;
+  width: 100%;
+  height: 5em;
+
+  resize: none;
+  border: 1px solid black;
+  border-radius: 15px;
+  padding: 15px;
+  overflow: hidden;
+}
+
+#detail #inputDuedate {
+  border: none;
+}
+
+#detail #inputDuedate:focus {
+  outline: none;
+}
+
+#detail #priority {
+  margin-left: 50px;
+}
+
+#detail .ph-floppy-disk {
+  font-size: 3em;
+  opacity: 50%;
+  cursor: pointer;
+  transition: opacity 0.5s ease;
+}
+
+#detail .ph-floppy-disk:hover {
+  opacity: 100%;
+}
+
+#detail .row {
+  margin: 20px auto;
+  display: flex;
 }

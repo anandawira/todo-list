@@ -6,62 +6,59 @@
     <title>TODO LIST</title>
     <link rel="stylesheet" href="./style.css" />
     <script src="https://unpkg.com/phosphor-icons"></script>
+    <!-- Remember to include jQuery :) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
+
+    <!-- jQuery Modal -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css"
+    />
   </head>
   <body>
     <header>
       <h1 id="title">TODO List</h1>
     </header>
-    <main>
-      <div class="card project">
-        <div class="card-header">
-          <p>
-            <input class="project-name" type="text" value="Self Improvement" />
-          </p>
-        </div>
-        <div class="card-content">
-          <div class="todo high-priority">
-            <div class="todo-title">
-              <p>Meditate</p>
-              <i class="ph-pencil-simple"></i>
-            </div>
-            <div class="due-date">
-              <p>23 Oct</p>
-            </div>
+    <div id="detail" class="modal">
+      <form id="modalForm">
+        <input
+          type="text"
+          name="inputTitle"
+          id="inputTitle"
+          placeholder="Title"
+          value="Meditate"
+          maxlength="14"
+        />
+        <br />
+        <textarea
+          name="inputDescription"
+          id="inputDescription"
+          rows="3"
+          placeholder="Description"
+          maxlength="100"
+        ></textarea>
+        <div class="row">
+          <div>
+            <label for="inputDuedate">Due Date</label>
+            <br />
+            <input
+              type="date"
+              name="inputDuedate"
+              id="inputDuedate"
+              value="2020-10-20"
+            />
           </div>
-          <div class="todo mid-priority">
-            <div class="todo-title">
-              <p>Read a Book</p>
-              <i class="ph-pencil-simple"></i>
-            </div>
-            <div class="due-date">
-              <p>23 Oct</p>
-            </div>
-          </div>
-          <div class="todo low-priority">
-            <div class="todo-title">
-              <p>Go to Gym</p>
-              <i class="ph-pencil-simple"></i>
-            </div>
-            <div class="due-date">
-              <p>23 Oct</p>
-            </div>
-          </div>
-          <div class="add-todo">
-            <i class="ph-plus-circle"></i>
-          </div>
+          <select name="priority" id="priority">
+            <option value="high">High Priority</option>
+            <option value="mid">Mid Priority</option>
+            <option value="low">Low Priority</option>
+          </select>
         </div>
-        <div class="card-footer">
-          <i class="ph-x"></i>
-        </div>
-      </div>
-
-      <div class="card new">
-        <div id="add-project">
-          <i class="ph-plus"></i>
-        </div>
-      </div>
-      <p style="opacity: 0%">.</p>
-    </main>
+        <i class="ph-floppy-disk"></i>
+      </form>
+    </div>
+    <main></main>
   </body>
   <script src="./main.js"></script>
 </html>

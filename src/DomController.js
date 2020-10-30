@@ -5,21 +5,34 @@ import swal from "sweetalert";
 const DomController = (() => {
   const mainDom = document.querySelector("main");
   const renderProjects = () => {
+    const cardAdd = createCardAddNew();
+    mainDom.appendChild(cardAdd);
+
     const projects = ProjectController.getProjects();
     projects.forEach((project, projectId) => {
-      const cardDom = createCardProject();
-
-      const cardHeaderDom = createCardHeader(project, projectId);
-      cardDom.appendChild(cardHeaderDom);
-
-      const cardContentDom = createCardContent(project, projectId);
-      cardDom.appendChild(cardContentDom);
-
-      const cardFooterDom = createCardFooter(projectId);
-      cardDom.appendChild(cardFooterDom);
-
-      mainDom.appendChild(cardDom);
+      createCard(project, projectId);
     });
+
+    const marginRight = document.createElement("p"); // Added a transparent p on the right because the last card right margin wont show
+    marginRight.style = "opacity: 0%";
+    marginRight.innerText = ".";
+    mainDom.appendChild(marginRight);
+  };
+
+  const createCard = (project, projectId) => {
+    const cardDom = createCardProject();
+
+    const cardHeaderDom = createCardHeader(project, projectId);
+    cardDom.appendChild(cardHeaderDom);
+
+    const cardContentDom = createCardContent(project, projectId);
+    cardDom.appendChild(cardContentDom);
+
+    const cardFooterDom = createCardFooter(projectId);
+    cardDom.appendChild(cardFooterDom);
+
+    const cardAdd = document.querySelector(".card.new");
+    mainDom.insertBefore(cardDom, cardAdd);
   };
 
   const createCardProject = () => {
@@ -110,6 +123,10 @@ const DomController = (() => {
 
     const addIcon = document.createElement("i");
     addIcon.classList.add("ph-plus-circle");
+    addIcon.addEventListener("click", () => {
+      editModal();
+      $("#detail").modal();
+    });
 
     addDiv.appendChild(addIcon);
 
@@ -117,6 +134,12 @@ const DomController = (() => {
 
     //
     return dom;
+  };
+
+  const editModal = (title, description, dueDate) => {
+    document.getElementById("inputTitle").value = title || "";
+    document.getElementById("inputDescription").value = description || "";
+    document.getElementById("inputDuedate").value = dueDate || "";
   };
 
   const createCardFooter = (projectId) => {
@@ -146,6 +169,29 @@ const DomController = (() => {
     delIcon.classList.add("ph-x");
 
     dom.appendChild(delIcon);
+    return dom;
+  };
+
+  const createCardAddNew = () => {
+    const dom = document.createElement("div");
+    dom.classList.add("card", "new");
+    dom.addEventListener("click", () => {
+      const blankProj = {
+        name: "New Project",
+        todos: [],
+      };
+      const projectId = ProjectController.addProject(blankProj); //Add blank project to localstorage and get index as return.
+      createCard(blankProj, projectId);
+    });
+
+    const addButton = document.createElement("div");
+    addButton.id = "add-project";
+
+    const plusIcon = document.createElement("i");
+    plusIcon.classList.add("ph-plus");
+
+    addButton.appendChild(plusIcon);
+    dom.appendChild(addButton);
     return dom;
   };
 

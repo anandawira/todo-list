@@ -3096,21 +3096,34 @@ __webpack_require__.r(__webpack_exports__);
 const DomController = (() => {
   const mainDom = document.querySelector("main");
   const renderProjects = () => {
+    const cardAdd = createCardAddNew();
+    mainDom.appendChild(cardAdd);
+
     const projects = _ProjectController__WEBPACK_IMPORTED_MODULE_0__.default.getProjects();
     projects.forEach((project, projectId) => {
-      const cardDom = createCardProject();
-
-      const cardHeaderDom = createCardHeader(project, projectId);
-      cardDom.appendChild(cardHeaderDom);
-
-      const cardContentDom = createCardContent(project, projectId);
-      cardDom.appendChild(cardContentDom);
-
-      const cardFooterDom = createCardFooter(projectId);
-      cardDom.appendChild(cardFooterDom);
-
-      mainDom.appendChild(cardDom);
+      createCard(project, projectId);
     });
+
+    const marginRight = document.createElement("p"); // Added a transparent p on the right because the last card right margin wont show
+    marginRight.style = "opacity: 0%";
+    marginRight.innerText = ".";
+    mainDom.appendChild(marginRight);
+  };
+
+  const createCard = (project, projectId) => {
+    const cardDom = createCardProject();
+
+    const cardHeaderDom = createCardHeader(project, projectId);
+    cardDom.appendChild(cardHeaderDom);
+
+    const cardContentDom = createCardContent(project, projectId);
+    cardDom.appendChild(cardContentDom);
+
+    const cardFooterDom = createCardFooter(projectId);
+    cardDom.appendChild(cardFooterDom);
+
+    const cardAdd = document.querySelector(".card.new");
+    mainDom.insertBefore(cardDom, cardAdd);
   };
 
   const createCardProject = () => {
@@ -3201,6 +3214,10 @@ const DomController = (() => {
 
     const addIcon = document.createElement("i");
     addIcon.classList.add("ph-plus-circle");
+    addIcon.addEventListener("click", () => {
+      editModal();
+      $("#detail").modal();
+    });
 
     addDiv.appendChild(addIcon);
 
@@ -3208,6 +3225,12 @@ const DomController = (() => {
 
     //
     return dom;
+  };
+
+  const editModal = (title, description, dueDate) => {
+    document.getElementById("inputTitle").value = title || "";
+    document.getElementById("inputDescription").value = description || "";
+    document.getElementById("inputDuedate").value = dueDate || "";
   };
 
   const createCardFooter = (projectId) => {
@@ -3237,6 +3260,29 @@ const DomController = (() => {
     delIcon.classList.add("ph-x");
 
     dom.appendChild(delIcon);
+    return dom;
+  };
+
+  const createCardAddNew = () => {
+    const dom = document.createElement("div");
+    dom.classList.add("card", "new");
+    dom.addEventListener("click", () => {
+      const blankProj = {
+        name: "New Project",
+        todos: [],
+      };
+      const projectId = _ProjectController__WEBPACK_IMPORTED_MODULE_0__.default.addProject(blankProj); //Add blank project to localstorage and get index as return.
+      createCard(blankProj, projectId);
+    });
+
+    const addButton = document.createElement("div");
+    addButton.id = "add-project";
+
+    const plusIcon = document.createElement("i");
+    plusIcon.classList.add("ph-plus");
+
+    addButton.appendChild(plusIcon);
+    dom.appendChild(addButton);
     return dom;
   };
 
@@ -3273,27 +3319,9 @@ __webpack_require__.r(__webpack_exports__);
 
 const ProjectController = (() => {
   const sampleTodos = [
-    new _Todo__WEBPACK_IMPORTED_MODULE_0__.default(
-      "Read a book",
-      "Read a book for 25 minutes",
-      Date(),
-      "mid",
-      "For better literation skill"
-    ),
-    new _Todo__WEBPACK_IMPORTED_MODULE_0__.default(
-      "Meditate",
-      "Meditate for at least 5 minutes.",
-      Date(),
-      "high",
-      "For clearer mind"
-    ),
-    new _Todo__WEBPACK_IMPORTED_MODULE_0__.default(
-      "Gym",
-      "Hit the gym for at least 1 hour.",
-      Date(),
-      "low",
-      "For bigger muscle."
-    ),
+    new _Todo__WEBPACK_IMPORTED_MODULE_0__.default("Read a book", "Read a book for 25 minutes", Date(), "mid"),
+    new _Todo__WEBPACK_IMPORTED_MODULE_0__.default("Meditate", "Meditate for at least 5 minutes.", Date(), "high"),
+    new _Todo__WEBPACK_IMPORTED_MODULE_0__.default("Gym", "Hit the gym for at least 1 hour.", Date(), "low"),
   ];
 
   const sampleProjects = new Map();
@@ -3419,12 +3447,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
 /* harmony export */ });
 class Todo {
-  constructor(title, description, dueDate, priority, notes) {
+  constructor(title, description, dueDate, priority) {
     this.title = title;
     this.description = description;
     this.dueDate = dueDate;
     this.priority = priority;
-    this.notes = notes;
     this.isDone = false;
   }
 }

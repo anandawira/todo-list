@@ -2,27 +2,9 @@ import Todo from "./Todo";
 
 const ProjectController = (() => {
   const sampleTodos = [
-    new Todo(
-      "Read a book",
-      "Read a book for 25 minutes",
-      Date(),
-      "mid",
-      "For better literation skill"
-    ),
-    new Todo(
-      "Meditate",
-      "Meditate for at least 5 minutes.",
-      Date(),
-      "high",
-      "For clearer mind"
-    ),
-    new Todo(
-      "Gym",
-      "Hit the gym for at least 1 hour.",
-      Date(),
-      "low",
-      "For bigger muscle."
-    ),
+    new Todo("Read a book", "Read a book for 25 minutes", Date(), "mid"),
+    new Todo("Meditate", "Meditate for at least 5 minutes.", Date(), "high"),
+    new Todo("Gym", "Hit the gym for at least 1 hour.", Date(), "low"),
   ];
 
   const sampleProjects = new Map();
