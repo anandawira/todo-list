@@ -3098,8 +3098,6 @@ const DomController = (() => {
   const renderProjects = () => {
     const projects = _ProjectController__WEBPACK_IMPORTED_MODULE_0__.default.getProjects();
     projects.forEach((project, projectId) => {
-      console.log(project);
-
       const cardDom = createCardProject();
 
       const cardHeaderDom = createCardHeader(project, projectId);
@@ -3135,7 +3133,6 @@ const DomController = (() => {
     inputElement.setAttribute("value", projectName);
 
     inputElement.addEventListener("focusout", (e) => {
-      console.log(e.target.value);
       _ProjectController__WEBPACK_IMPORTED_MODULE_0__.default.editProject(projectId, e.target.value);
     });
 
@@ -3452,8 +3449,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _DomController__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./DomController */ "./src/DomController.js");
 
 
-
-console.log(_ProjectController__WEBPACK_IMPORTED_MODULE_0__.default.getProjects());
 
 const proj = _ProjectController__WEBPACK_IMPORTED_MODULE_0__.default.getProjects();
 

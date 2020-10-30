@@ -7,8 +7,6 @@ const DomController = (() => {
   const renderProjects = () => {
     const projects = ProjectController.getProjects();
     projects.forEach((project, projectId) => {
-      console.log(project);
-
       const cardDom = createCardProject();
 
       const cardHeaderDom = createCardHeader(project, projectId);
@@ -44,7 +42,6 @@ const DomController = (() => {
     inputElement.setAttribute("value", projectName);
 
     inputElement.addEventListener("focusout", (e) => {
-      console.log(e.target.value);
       ProjectController.editProject(projectId, e.target.value);
     });
 
