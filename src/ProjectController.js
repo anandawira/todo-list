@@ -98,6 +98,11 @@ const ProjectController = (() => {
     return newStatus;
   };
 
+  const getTodoStatus = (projectId, todoId) => {
+    const projects = getProjects();
+    return projects.get(projectId).todos[todoId].isDone;
+  };
+
   const removeTodo = (projectId, todoId) => {
     const projects = getProjects();
     projects.get(projectId).todos.splice(todoId, 1);
@@ -115,6 +120,7 @@ const ProjectController = (() => {
     editTodo,
     changeTodoStatus,
     removeTodo,
+    getTodoStatus,
   };
 })();
 

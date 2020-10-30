@@ -3105,7 +3105,7 @@ const DomController = (() => {
       const cardHeaderDom = createCardHeader(project, projectId);
       cardDom.appendChild(cardHeaderDom);
 
-      const cardContentDom = createCardContent(project);
+      const cardContentDom = createCardContent(project, projectId);
       cardDom.appendChild(cardContentDom);
 
       const cardFooterDom = createCardFooter(projectId);
@@ -3144,13 +3144,13 @@ const DomController = (() => {
     return dom;
   };
 
-  const createCardContent = (project) => {
+  const createCardContent = (project, projectId) => {
     const dom = document.createElement("div");
     dom.classList.add("card-content");
 
     // Todos
     const todos = project.todos;
-    todos.forEach((todo) => {
+    todos.forEach((todo, todoId) => {
       const priority = todo.priority + "-priority";
       const dueDate = new Date(todo.dueDate);
       const dueDateFormatted = (0,date_fns__WEBPACK_IMPORTED_MODULE_2__.default)(dueDate, "dd MMM");
@@ -3158,6 +3158,9 @@ const DomController = (() => {
 
       const todoDiv = document.createElement("div");
       todoDiv.classList.add("todo", priority);
+      if (_ProjectController__WEBPACK_IMPORTED_MODULE_0__.default.getTodoStatus(projectId, todoId)) {
+        todoDiv.classList.add("done");
+      }
 
       const titleDiv = document.createElement("div");
       titleDiv.classList.add("todo-title");
@@ -3170,6 +3173,11 @@ const DomController = (() => {
 
       const doneIcon = document.createElement("i");
       doneIcon.classList.add("ph-check");
+
+      doneIcon.addEventListener("click", () => {
+        todoDiv.classList.toggle("done");
+        _ProjectController__WEBPACK_IMPORTED_MODULE_0__.default.changeTodoStatus(projectId, todoId);
+      });
 
       titleDiv.appendChild(pElement);
       titleDiv.appendChild(editIcon);
@@ -3364,6 +3372,11 @@ const ProjectController = (() => {
     return newStatus;
   };
 
+  const getTodoStatus = (projectId, todoId) => {
+    const projects = getProjects();
+    return projects.get(projectId).todos[todoId].isDone;
+  };
+
   const removeTodo = (projectId, todoId) => {
     const projects = getProjects();
     projects.get(projectId).todos.splice(todoId, 1);
@@ -3381,6 +3394,7 @@ const ProjectController = (() => {
     editTodo,
     changeTodoStatus,
     removeTodo,
+    getTodoStatus,
   };
 })();
 

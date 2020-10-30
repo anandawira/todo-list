@@ -14,7 +14,7 @@ const DomController = (() => {
       const cardHeaderDom = createCardHeader(project, projectId);
       cardDom.appendChild(cardHeaderDom);
 
-      const cardContentDom = createCardContent(project);
+      const cardContentDom = createCardContent(project, projectId);
       cardDom.appendChild(cardContentDom);
 
       const cardFooterDom = createCardFooter(projectId);
@@ -53,13 +53,13 @@ const DomController = (() => {
     return dom;
   };
 
-  const createCardContent = (project) => {
+  const createCardContent = (project, projectId) => {
     const dom = document.createElement("div");
     dom.classList.add("card-content");
 
     // Todos
     const todos = project.todos;
-    todos.forEach((todo) => {
+    todos.forEach((todo, todoId) => {
       const priority = todo.priority + "-priority";
       const dueDate = new Date(todo.dueDate);
       const dueDateFormatted = format(dueDate, "dd MMM");
@@ -67,6 +67,9 @@ const DomController = (() => {
 
       const todoDiv = document.createElement("div");
       todoDiv.classList.add("todo", priority);
+      if (ProjectController.getTodoStatus(projectId, todoId)) {
+        todoDiv.classList.add("done");
+      }
 
       const titleDiv = document.createElement("div");
       titleDiv.classList.add("todo-title");
@@ -79,6 +82,11 @@ const DomController = (() => {
 
       const doneIcon = document.createElement("i");
       doneIcon.classList.add("ph-check");
+
+      doneIcon.addEventListener("click", () => {
+        todoDiv.classList.toggle("done");
+        ProjectController.changeTodoStatus(projectId, todoId);
+      });
 
       titleDiv.appendChild(pElement);
       titleDiv.appendChild(editIcon);

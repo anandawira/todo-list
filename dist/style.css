@@ -57,7 +57,7 @@ main {
   opacity: 100%;
 }
 
-#add-project > .ph-plus {
+#add-project .ph-plus {
   font-size: 7em;
 }
 
@@ -91,7 +91,7 @@ main {
   color: white;
 }
 
-.card-header > p {
+.card-header p {
   width: 90%;
 }
 
@@ -136,7 +136,7 @@ main {
   padding-left: 15px;
 }
 
-.todo-title > p {
+.todo-title p {
   font-family: "Montserrat", sans-serif;
   font-weight: 700;
   font-size: 25px;
@@ -149,10 +149,15 @@ main {
   opacity: 0%;
   cursor: pointer;
   transition: opacity 0.2s ease;
+  transition: scale 0.5s ease;
 }
 
 .todo:hover i {
   opacity: 100%;
+}
+
+.todo i:hover {
+  scale: 1.5;
 }
 
 .due-date {
@@ -161,7 +166,7 @@ main {
   align-items: center;
 }
 
-.due-date > p {
+.due-date p {
   font-family: "Montserrat", sans-serif;
   font-weight: 300;
   font-size: 20px;
@@ -171,7 +176,7 @@ main {
   display: flex;
 }
 
-.add-todo > .ph-plus-circle {
+.add-todo .ph-plus-circle {
   line-height: 0px;
   margin: auto;
   font-size: 80px;
@@ -180,11 +185,15 @@ main {
   transition: opacity 0.2s ease;
 }
 
-.add-todo > .ph-plus-circle:hover {
+.add-todo .ph-plus-circle:hover {
   opacity: 100%;
 }
 
 .ph-x {
   font-size: 50px;
   transition: color 0.5s ease;
+}
+
+.done {
+  opacity: 30%;
 }
