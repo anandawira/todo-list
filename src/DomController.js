@@ -87,9 +87,8 @@ const DomController = (() => {
       editModal();
       $("#detail").modal();
 
-      const saveButton = document.getElementById("btnSave");
-
-      saveButton.addEventListener("click", () => {
+      const addFunction = () => {
+        saveButton.removeEventListener("click", addFunction);
         const title = document.getElementById("inputTitle").value;
         const desc = document.getElementById("inputDescription").value;
         const dueDate = new Date(document.getElementById("inputDuedate").value);
@@ -103,7 +102,10 @@ const DomController = (() => {
 
         dom.insertBefore(todoDom, addDiv);
         $.modal.close();
-      });
+      };
+
+      const saveButton = document.getElementById("btnSave");
+      saveButton.addEventListener("click", addFunction);
     });
 
     addDiv.appendChild(addIcon);
