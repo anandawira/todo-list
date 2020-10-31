@@ -279,3 +279,35 @@ main {
     height: 350px;
   }
 }
+
+@media only screen and (max-width: 500px) {
+  header {
+    height: 10vh;
+  }
+
+  #title {
+    font-size: 30px;
+  }
+
+  main {
+    flex-direction: column;
+  }
+
+  .card {
+    margin: 10px 10px;
+    transform: scale(0.8);
+  }
+
+  .ph-pencil-simple,
+  .ph-check {
+    opacity: 100%;
+  }
+
+  #detail {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 80vw;
+  }
+}
