@@ -159,14 +159,18 @@ const DomController = (() => {
         const desc = document.getElementById("inputDescription").value;
         const dueDate = new Date(document.getElementById("inputDuedate").value);
         const priority = document.getElementById("priority").value;
+        const status = ProjectController.getTodoStatus(projectId, todoId);
 
-        const todo = new Todo(title, desc, dueDate, priority);
+        const todo = new Todo(title, desc, dueDate, priority, status);
 
         ProjectController.editTodo(projectId, todoId, todo);
 
         $.modal.close();
 
         const newDom = createTodoItem(todo, todoId, projectId);
+        if (status) {
+          newDom.classList.add("done");
+        }
         todoDiv.replaceWith(newDom);
       };
 
