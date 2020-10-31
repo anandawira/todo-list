@@ -85,7 +85,12 @@ const DomController = (() => {
     addIcon.classList.add("ph-plus-circle");
     addIcon.addEventListener("click", () => {
       editModal();
-      $("#detail").modal();
+      $("#detail").modal({
+        fadeDuration: 200,
+      });
+      document.getElementById("inputTitle").focus();
+
+      const saveButton = document.getElementById("btnSave");
 
       const addFunction = () => {
         saveButton.removeEventListener("click", addFunction);
@@ -103,8 +108,6 @@ const DomController = (() => {
         dom.insertBefore(todoDom, addDiv);
         $.modal.close();
       };
-
-      const saveButton = document.getElementById("btnSave");
       saveButton.addEventListener("click", addFunction);
     });
 
@@ -136,6 +139,39 @@ const DomController = (() => {
 
     const editIcon = document.createElement("i");
     editIcon.classList.add("ph-pencil-simple");
+    editIcon.addEventListener("click", () => {
+      const title = todo.title;
+      const desc = todo.description;
+      const dueDate = format(new Date(todo.dueDate), "yyyy-MM-dd");
+      const priority = todo.priority;
+
+      editModal(title, desc, dueDate, priority);
+      $("#detail").modal({
+        fadeDuration: 200,
+      });
+      document.getElementById("inputTitle").focus();
+
+      const saveButton = document.getElementById("btnSave");
+
+      const editFunction = () => {
+        saveButton.removeEventListener("click", editFunction);
+        const title = document.getElementById("inputTitle").value;
+        const desc = document.getElementById("inputDescription").value;
+        const dueDate = new Date(document.getElementById("inputDuedate").value);
+        const priority = document.getElementById("priority").value;
+
+        const todo = new Todo(title, desc, dueDate, priority);
+
+        ProjectController.editTodo(projectId, todoId, todo);
+
+        $.modal.close();
+
+        const newDom = createTodoItem(todo, todoId, projectId);
+        todoDiv.replaceWith(newDom);
+      };
+
+      saveButton.addEventListener("click", editFunction);
+    });
 
     const doneIcon = document.createElement("i");
     doneIcon.classList.add("ph-check");
@@ -161,12 +197,13 @@ const DomController = (() => {
     return todoDiv;
   };
 
-  const editModal = (title, description, dueDate) => {
+  const editModal = (title, description, dueDate, priority) => {
     const todayDate = format(Date.now(), "yyyy-MM-dd");
 
     document.getElementById("inputTitle").value = title || "";
     document.getElementById("inputDescription").value = description || "";
     document.getElementById("inputDuedate").value = dueDate || todayDate;
+    document.getElementById("priority").value = priority || "high";
   };
 
   const createCardFooter = (projectId) => {
