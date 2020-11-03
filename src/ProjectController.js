@@ -1,27 +1,27 @@
-import Todo from "./Todo";
+import Todo from './Todo';
 
 const ProjectController = (() => {
   const sampleTodos = [
-    new Todo("Read a book", "Read a book for 25 minutes", Date(), "mid"),
-    new Todo("Meditate", "Meditate for at least 5 minutes.", Date(), "high"),
-    new Todo("Gym", "Hit the gym for at least 1 hour.", Date(), "low"),
+    new Todo('Read a book', 'Read a book for 25 minutes', Date(), 'mid'),
+    new Todo('Meditate', 'Meditate for at least 5 minutes.', Date(), 'high'),
+    new Todo('Gym', 'Hit the gym for at least 1 hour.', Date(), 'low'),
   ];
 
   const sampleProjects = new Map();
-  sampleProjects.set("default", {
-    name: "Daily",
+  sampleProjects.set('default', {
+    name: 'Daily',
     todos: sampleTodos,
   });
 
   const saveProjects = (projects) => {
-    localStorage.setItem("projects", JSON.stringify([...projects])); //Using array of pair for converting to json
+    localStorage.setItem('projects', JSON.stringify([...projects])); // Using array of pair for converting to json
   };
 
   const getProjects = () => {
-    if (!localStorage.getItem("projects")) {
+    if (!localStorage.getItem('projects')) {
       saveProjects(sampleProjects);
     }
-    return new Map(JSON.parse(localStorage.getItem("projects"))); // Converting back to map
+    return new Map(JSON.parse(localStorage.getItem('projects'))); // Converting back to map
   };
 
   const getProject = (projectId) => {
@@ -105,8 +105,5 @@ const ProjectController = (() => {
     getTodoStatus,
   };
 })();
-
-//TODO : refactor the code for better efficiency.
-//TODO : Create ui on figma.
 
 export default ProjectController;
